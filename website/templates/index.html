@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Paradise Cove Resort</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header><h1>Paradise Cove Resort</h1><p>Escape. Unwind. Stay awhile.</p></header>
+<main>
+  <section class="hero card">
+    <h2>Welcome, {{ username }}</h2>
+    <p>Private beaches, ocean-view villas, and suspiciously insecure web development.</p>
+    <a class="button" href="{{ url_for('login') }}">Guest Login</a>
+    <a class="button" href="{{ url_for('preview') }}">Concierge Preview</a>
+  </section>
+
+  <section class="card">
+    <h2>Guestbook</h2>
+    <form method="post" action="{{ url_for('guestbook') }}">
+      <textarea name="comment" placeholder="Tell us about your stay"></textarea>
+      <button type="submit">Post review</button>
+    </form>
+    <div class="reviews">
+      {% for comment in comments %}
+        <!-- INTENTIONALLY VULNERABLE: |safe disables Jinja HTML escaping. -->
+        <article class="review">{{ comment | safe }}</article>
+      {% else %}
+        <p>No reviews yet.</p>
+      {% endfor %}
+    </div>
+    <form method="post" action="{{ url_for('clear') }}"><button>Clear guestbook</button></form>
+  </section>
+</main>
+</body>
+</html>
