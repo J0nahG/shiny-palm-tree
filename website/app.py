@@ -9,7 +9,7 @@ SESSION_TOKEN = "7f3a9c2e1b6d4a8f0c5e9b2d7a1f6c3e"
 
 @app.route("/")
 def index():
-    username = "Checked-in guest" if request.cookies.get("resort_session") == SESSION_TOKEN else "Guest"
+    username = "Admin" if request.cookies.get("resort_session") == SESSION_TOKEN else "Guest"
     return render_template("index.html", username=username, comments=COMMENTS)
 
 @app.route("/login", methods=["GET", "POST"])

