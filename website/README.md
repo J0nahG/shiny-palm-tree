@@ -15,7 +15,7 @@ Open `http://127.0.0.1:5000`.
 
 ## Demo flow
 
-1. Log in as `demo-guest`. The app creates a deliberately non-HttpOnly `resort_session` cookie.
+1. Log in with the hardcoded password `paradise-cove-password`. The app creates a hardcoded `resort_session` cookie and uses it to protect Concierge Preview.
 2. In the guestbook, demonstrate stored XSS with a harmless page modification such as:
 
 ```html
@@ -41,6 +41,6 @@ For an RCE lesson, the vulnerable primitive is intentionally present in `render_
 ## Vulnerabilities to explain
 
 - **Stored XSS:** `{{ comment | safe }}` suppresses Jinja's normal escaping.
-- **Cookie exposure:** the demo cookie intentionally lacks `HttpOnly`, so injected JavaScript can read it.
+- **Authentication:** login uses a hardcoded password and session token for the isolated demo.
 - **SSTI:** attacker-controlled text is passed into `render_template_string`, causing Jinja expressions to execute server-side.
-- **Fixes:** remove `|safe`, sanitize any intentionally allowed HTML, set authentication cookies `HttpOnly`/`Secure`, and never treat untrusted input as template source.
+- **Fixes:** remove `|safe`, sanitize any intentionally allowed HTML, set authentication cookies `HttpOnly`/`Secure`, and never treat untrusted input as template source. Replace the hardcoded demo credentials with a real authentication system in production.

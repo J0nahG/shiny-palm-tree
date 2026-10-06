@@ -4,19 +4,22 @@ app = Flask(__name__)
 app.secret_key = "demo-only-secret"
 
 COMMENTS = []
+HARDCODED_PASSWORD = "paradise-cove-password"
+SESSION_TOKEN = "rsv_7f3a9c2e1b6d4a8f0c5e9b2d7a1f6c3e"
 
 @app.route("/")
 def index():
-    username = request.cookies.get("resort_session", "Guest")
+    username = "Checked-in guest" if request.cookies.get("resort_session") == SESSION_TOKEN else "Guest"
     return render_template("index.html", username=username, comments=COMMENTS)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        username = request.form.get("username", "guest")
+        if request.form.get("password") != HARDCODED_PASSWORD:
+            return render_template("login.html", error="Invalid password."), 401
+
         resp = make_response(redirect(url_for("index")))
-        # Intentionally insecure for the demo: readable by JavaScript (no HttpOnly).
-        resp.set_cookie("resort_session", username, httponly=False, samesite="Lax")
+        resp.set_cookie("resort_session", SESSION_TOKEN, httponly=True, samesite="Lax")
         return resp
     return render_template("login.html")
 
@@ -29,6 +32,9 @@ def guestbook():
 
 @app.route("/preview", methods=["GET", "POST"])
 def preview():
+    if request.cookies.get("resort_session") != SESSION_TOKEN:
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         message = request.form.get("message", "Welcome to Paradise Cove Resort!")
         # INTENTIONALLY VULNERABLE SSTI:
