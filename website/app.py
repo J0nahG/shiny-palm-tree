@@ -5,7 +5,7 @@ app.secret_key = "demo-only-secret"
 
 COMMENTS = []
 HARDCODED_PASSWORD = "paradise-cove-password"
-SESSION_TOKEN = "rsv_7f3a9c2e1b6d4a8f0c5e9b2d7a1f6c3e"
+SESSION_TOKEN = "7f3a9c2e1b6d4a8f0c5e9b2d7a1f6c3e"
 
 @app.route("/")
 def index():
@@ -19,7 +19,7 @@ def login():
             return render_template("login.html", error="Invalid password."), 401
 
         resp = make_response(redirect(url_for("index")))
-        resp.set_cookie("resort_session", SESSION_TOKEN, httponly=True, samesite="Lax")
+        resp.set_cookie("resort_session", SESSION_TOKEN, httponly=False, samesite="Lax")
         return resp
     return render_template("login.html")
 
