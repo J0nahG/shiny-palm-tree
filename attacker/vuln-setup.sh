@@ -84,7 +84,7 @@ else
 fi
 
 # set desktop background
-#gsettings set org.gnome.desktop.background picture-uri "file:///home/sparrow/bg.jpg"
+gsettings set org.gnome.desktop.background picture-uri "file:///home/user/bg-old.jpg"
 #echo "[+] Desktop bg set?"
 
 echo "[+] Complete!"
