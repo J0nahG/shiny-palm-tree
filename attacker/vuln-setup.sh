@@ -38,7 +38,6 @@ func_createuser() {
     fi
 
     echo "[+] $1:$2 created successfully."
-    exit 0
 }
 
 func_createuser jeremy appleseed
@@ -77,7 +76,7 @@ echo "[+] script permissions modified"
 # Edit Crontab
 cat /etc/crontab | grep db-backup.sh
 if [ $? -eq 1 ]; then
-    echo "* * * * * root $script_dir/db-backup.sh" >> etc/crontab
+    echo "* * * * * root $script_dir/db-backup.sh" >> /etc/crontab
     echo "[+] Crontab modified"
 else
     echo "[*] Crontab already modified"
