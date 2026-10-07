@@ -1,0 +1,25 @@
+# /etc/systemd/system/gunicorn.service
+
+[Unit]
+Description=Gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+NotifyAccess=main
+
+User=www-data
+Group=www-data
+
+WorkingDirectory=/var/www/shiny-palm-tree/website
+
+ExecStart=/var/www/shiny-palm-tree/venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock app:app
+
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
