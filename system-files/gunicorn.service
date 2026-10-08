@@ -14,7 +14,7 @@ Group=www-data
 
 WorkingDirectory=/var/www/shiny-palm-tree/website
 
-ExecStart=/var/www/shiny-palm-tree/venv/bin/gunicorn --workers 3 --bind unix:/run/gunicorn.sock app:app
+ExecStart=/var/www/shiny-palm-tree/venv/bin/gunicorn --workers 1 --bind unix:/run/gunicorn.sock app:app
 
 ExecReload=/bin/kill -s HUP $MAINPID
 KillMode=mixed

@@ -22,7 +22,7 @@ There are a few components involved in this flask web app:
                      ┌─────────────┐
                      │  Gunicorn   │
                      │             │
-                     │  3 workers  │
+                     │  1 worker   │
                      └──────┬──────┘
                             │
                             ▼
